@@ -116,13 +116,12 @@ function rendersnake() {
     }
 
 
-    if (head.x === food.x && head.y === food.y) {
+    let ateFood = head.x === food.x && head.y === food.y;
 
+    if (ateFood) {
         blocks[`${food.x},${food.y}`].classList.remove("food")
         spawnFood()
         blocks[`${food.x},${food.y}`].classList.add("food")
-        snake.unshift(head)
-
         score = score + 10;
         scoreElement.innerText = score;
         if (score > highscore) {
@@ -137,7 +136,9 @@ function rendersnake() {
     })
 
     snake.unshift(head);
-    snake.pop();
+    if (!ateFood) {
+        snake.pop();
+    }
 
     snake.forEach(segment => {
         blocks[`${segment.x},${segment.y}`].classList.add("fill")

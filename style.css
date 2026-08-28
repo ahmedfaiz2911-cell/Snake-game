@@ -152,16 +152,14 @@ section .keybuttons{
 
 
 @media (max-width: 600px) {
-    section .keybuttons{
-        display: grid;
-    }
-
     section {
-        padding: 10px;
+        padding: 8px 10px;
+        gap: 8px;
     }
 
     section .infos {
-        margin-bottom: 10px;
+        flex-shrink: 0;
+        margin-bottom: 0;
     }
 
     .info {
@@ -171,6 +169,12 @@ section .keybuttons{
 
     .info h2 {
         font-size: 0.9rem;
+    }
+
+    section .keybuttons {
+        display: grid;
+        flex-shrink: 0;
+        margin-top: auto;
     }
 } 
 
