@@ -72,6 +72,7 @@ function setDirection(newDir) {
     const opposite = { up: 'down', down: 'up', left: 'right', right: 'left' };
     const lastDir = directionQueue.length > 0 ? directionQueue[directionQueue.length - 1] : direction;
     if (lastDir === newDir || lastDir === opposite[newDir]) return;
+    if (directionQueue.length >= 1) return;
     directionQueue.push(newDir);
 }
 
@@ -199,7 +200,19 @@ addEventListener("keydown", (buttonkaname) => {
     }
 })
 
-upkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("up") });
-downkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("down") });
-rightkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("right") });
-leftkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("left") });
+function bindBtn(btn, dir) {
+    btn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        setDirection(dir);
+    }, { passive: false });
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        setDirection(dir);
+    });
+}
+
+bindBtn(upkey, "up");
+bindBtn(downkey, "down");
+bindBtn(rightkey, "right");
+bindBtn(leftkey, "left");
+
