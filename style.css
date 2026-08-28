@@ -117,26 +117,44 @@ display: none;
 
 section .keybuttons{
     margin-top: 10px;
-    display: grid;
-    grid-template-columns: 50px 50px 50px;
-    /* grid-template-rows: 50px 50px 50px; */
-    gap: 8px;
-    align-self: center;   
     display: none;
+    grid-template-columns: repeat(3, 56px);
+    gap: 8px;
+    align-self: center;
+    touch-action: manipulation;
 }
 
+.keybuttons > div {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    border-radius: var(--border-radius-md);
+    background-color: #2a2a2a;
+    font-size: 24px;
+    color: var(--text-primary-color);
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
 
-.keybuttons .up    { grid-column: 2; grid-row: 1; border: 2px solid white;padding:10px 19px 12px; font-size: 20px;}
-.keybuttons .left  { grid-column: 1; grid-row: 2; border: 2px solid white; padding:10px 19px 12px; font-size: 20px; }
-.keybuttons .down  { grid-column: 2; grid-row: 2; border: 2px solid white;padding:10px 19px 12px; font-size: 20px;}
-.keybuttons .right { grid-column: 3; grid-row: 2; border: 2px solid white;padding:10px 19px 12px; font-size: 20px;}
+.keybuttons .up    { grid-column: 2; grid-row: 1; }
+.keybuttons .left  { grid-column: 1; grid-row: 2; }
+.keybuttons .down  { grid-column: 2; grid-row: 2; }
+.keybuttons .right { grid-column: 3; grid-row: 2; }
+
+.keybuttons > div:active {
+    background-color: #4a4a4a;
+    transform: scale(0.95);
+}
 
 
 @media (max-width: 600px) {
-   section .keybuttons{
-    display: grid;
-
-}
+    section .keybuttons{
+        display: grid;
+    }
 
     section {
         padding: 10px;
@@ -154,8 +172,6 @@ section .keybuttons{
     .info h2 {
         font-size: 0.9rem;
     }
-
-   
 } 
 
 

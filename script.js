@@ -26,11 +26,21 @@ highscoreElement.innerText = highscore;
 const coloums = Math.floor(board.clientWidth / boxwidth);
 const rows = Math.floor(board.clientHeight / boxheight);
 let blocks = [];
-let food = { x: Math.floor(Math.random() * rows), y: Math.floor(Math.random() * coloums) };
 let snake = [{
     x: 1,
     y: 3
 }]
+
+let food = { x: Math.floor(Math.random() * rows), y: Math.floor(Math.random() * coloums) };
+
+function spawnFood() {
+    let x, y;
+    do {
+        x = Math.floor(Math.random() * rows);
+        y = Math.floor(Math.random() * coloums);
+    } while (snake.some(s => s.x === x && s.y === y));
+    food = { x, y };
+}
 
 function starttimer() {
     timerintervalId = setInterval(() => {
@@ -51,13 +61,25 @@ for (let row = 0; row < rows; row++) {
         const block = document.createElement('div');
         block.classList.add('block');
         board.appendChild(block);
-        // block.innerText = `${row},${coloum}`;
+   
         blocks[`${row},${coloum}`] = block;
     }
 }
 let direction = 'left';
+let directionQueue = [];
+
+function setDirection(newDir) {
+    const opposite = { up: 'down', down: 'up', left: 'right', right: 'left' };
+    const lastDir = directionQueue.length > 0 ? directionQueue[directionQueue.length - 1] : direction;
+    if (lastDir === newDir || lastDir === opposite[newDir]) return;
+    directionQueue.push(newDir);
+}
 
 function rendersnake() {
+
+    if (directionQueue.length > 0) {
+        direction = directionQueue.shift();
+    }
 
     let head = null
     blocks[`${food.x},${food.y}`].classList.add("food")
@@ -97,7 +119,7 @@ function rendersnake() {
     if (head.x === food.x && head.y === food.y) {
 
         blocks[`${food.x},${food.y}`].classList.remove("food")
-        food = { x: Math.floor(Math.random() * rows), y: Math.floor(Math.random() * coloums) };
+        spawnFood()
         blocks[`${food.x},${food.y}`].classList.add("food")
         snake.unshift(head)
 
@@ -105,7 +127,7 @@ function rendersnake() {
         scoreElement.innerText = score;
         if (score > highscore) {
             highscore = score
-            // highscoreElement.innerText = highscore;
+            highscoreElement.innerText = highscore;
             localStorage.setItem("highscoring", highscore.toString())
         }
     }
@@ -155,28 +177,29 @@ function resgame() {
     })
     modal.style.display = "none"
     direction = 'down'
+    directionQueue = []
     snake = [{ x: 1, y: 3 }]
-    food = { x: Math.floor(Math.random() * rows), y: Math.floor(Math.random() * coloums) };
+    spawnFood()
     intervalId = setInterval(() => { rendersnake() }, 300);
 }
 
 
 addEventListener("keydown", (buttonkaname) => {
     if (buttonkaname.key === "ArrowUp") {
-        direction = "up"
+        setDirection("up")
     }
     else if (buttonkaname.key === "ArrowDown") {
-        direction = "down"
+        setDirection("down")
     }
     else if (buttonkaname.key === "ArrowRight") {
-        direction = "right"
+        setDirection("right")
     }
     else if (buttonkaname.key === "ArrowLeft") {
-        direction = "left"
+        setDirection("left")
     }
 })
 
-upkey.addEventListener("click",()=>{direction="up"});
-downkey.addEventListener("click",()=>{direction="down"});
-rightkey.addEventListener("click",()=>{direction="right"});
-leftkey.addEventListener("click",()=>{direction="left"});
+upkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("up") });
+downkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("down") });
+rightkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("right") });
+leftkey.addEventListener("click", (e)=>{ e.preventDefault(); setDirection("left") });
