@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Master</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <section>
+            <div class="infos">
+                <div class="info">
+                    <H2>High Score : <span id="High-score">0</span></H2>
+                </div>
+                <div class="info">
+                    <H2>Score : <span id="score">0</span></H2>
+                </div>
+                <div class="info">
+                    <H2>Time : <span id="timer">00-00</span></H2>
+                </div>
+            </div>
+            <div class="board"> </div>
+                <div class="keybuttons">
+                    <div class="up">↑</div>
+                    <div class="left">←</div>
+                    <div class="down">↓</div>
+                    <div class="right">→</div>
+              </div>
+        </section>
+
+    
+        <div class="modal">
+            <div class="startgame">
+                <h3>WELCOME TO SNAKE GAME</h3>
+                <button class="btn btn-start">Start game</button>
+            </div>
+            <div class="restartgame">
+                <h3>OOPS! You Lost</h3>
+                <button class="btn btn-restart">Restart</button>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
