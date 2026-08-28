@@ -66,20 +66,19 @@ for (let row = 0; row < rows; row++) {
     }
 }
 let direction = 'left';
-let directionQueue = [];
+let nextDirection = null;
 
 function setDirection(newDir) {
     const opposite = { up: 'down', down: 'up', left: 'right', right: 'left' };
-    const lastDir = directionQueue.length > 0 ? directionQueue[directionQueue.length - 1] : direction;
-    if (lastDir === newDir || lastDir === opposite[newDir]) return;
-    if (directionQueue.length >= 1) return;
-    directionQueue.push(newDir);
+    if (newDir === direction || newDir === opposite[direction]) return;
+    nextDirection = newDir;
 }
 
 function rendersnake() {
 
-    if (directionQueue.length > 0) {
-        direction = directionQueue.shift();
+    if (nextDirection) {
+        direction = nextDirection;
+        nextDirection = null;
     }
 
     let head = null
@@ -178,7 +177,7 @@ function resgame() {
     })
     modal.style.display = "none"
     direction = 'down'
-    directionQueue = []
+    nextDirection = null
     snake = [{ x: 1, y: 3 }]
     spawnFood()
     intervalId = setInterval(() => { rendersnake() }, 300);
@@ -201,11 +200,7 @@ addEventListener("keydown", (buttonkaname) => {
 })
 
 function bindBtn(btn, dir) {
-    btn.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        setDirection(dir);
-    }, { passive: false });
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("pointerdown", (e) => {
         e.preventDefault();
         setDirection(dir);
     });
